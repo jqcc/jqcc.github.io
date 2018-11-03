@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jqcc" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="我应该知道：1、WM_PAINT优先级很低， 基本总是处于消息队列尾部， 要实时重绘 可调用 UpdateWindow(hwnd);2、windows很多结构第一个字段常被定义为sizeof(this); 目的是方便以后的版本可以扩充结构而保持与以前程序兼容3、6种GDI对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win32笔记">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/win32笔记/index.html">
+<meta property="og:site_name" content="jqcc">
+<meta property="og:description" content="我应该知道：1、WM_PAINT优先级很低， 基本总是处于消息队列尾部， 要实时重绘 可调用 UpdateWindow(hwnd);2、windows很多结构第一个字段常被定义为sizeof(this); 目的是方便以后的版本可以扩充结构而保持与以前程序兼容3、6种GDI对象">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-05T11:41:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win32笔记">
+<meta name="twitter:description" content="我应该知道：1、WM_PAINT优先级很低， 基本总是处于消息队列尾部， 要实时重绘 可调用 UpdateWindow(hwnd);2、windows很多结构第一个字段常被定义为sizeof(this); 目的是方便以后的版本可以扩充结构而保持与以前程序兼容3、6种GDI对象">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/win32笔记/">
+
+
+
+
+
+  <title>win32笔记 | jqcc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jqcc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/win32笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jqcc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jqcc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">win32笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T16:31:22+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我应该知道：<br>1、WM_PAINT优先级很低， 基本总是处于消息队列尾部， 要实时重绘 可调用 UpdateWindow(hwnd);<br>2、windows很多结构第一个字段常被定义为sizeof(this); 目的是方便以后的版本可以扩充结构而保持与以前程序兼容<br>3、6种GDI对象<br><a id="more"></a><br>    CBitMap  - 位图是一种位矩阵，每一个显示像素都对应一个或多个位，我们可以用位图来表示图像，也可以用它来创建刷子。<br>    CBrush   - 刷子定义了一种位图形式的像素，用它可以对区域内部填充颜色。<br>    CFont    - 字体是一种具有某种风格和尺寸的所有字符的集合。<br>    CPalette - 调色板是一种颜色映射接口。<br>    Cpen     - 笔是一种画线和有形边框的工具，可以指定画线的宽度，以及画虚线，实线等。<br>    CRgn     - 区域是一种范围，可以用它来填充、裁剪以及鼠标点中测试。<br>4、3条规则控制GDI对象的使用<br>    最终应当删除创建的所有GDI对象<br>    当GDI对象被选入一个有效的设备环境时 不要删除它<br>    不要删除备用对象</p>
+<p>#define WINAPI __stdcall<br>typedef unsigned short wchar_t;<br>strlen(char<em>) ASCII字符 wcslen(wchar_t</em>) 宽字符<br>TCHAR.h 头文件处理了 兼容ASCII和宽字符的函数集<br>TEXT()  宏可根据编码环境处理字符串为ASCII字符或宽字符<br>funA()-&gt;ascii版  funW()-&gt;宽字符版</p>
+<p>打印信息: (在vcvs的空项目都能运行，vs的win32prj不可运行)<br>char szBuffer[100];<br>sprintf(szBuffer, “the value is %d”, val);<br>MessageBox(NULL, szBuffer, “msg”, MB_OK);<br>// win32prj中 第二个参数有问题 解决方案1:类型强转(LPCSTR)<br>int GetSystemMetrics(int nIndex) 获取windows的窗口大小<br>    nIndex = SM_CXSCREEN|SM_CYSCREEN (x轴像素点|压轴像素点)</p>
+<hr>
+<pre><code>typedef struct tagMSG {
+    HWND     hwnd;        消息所指向的窗口句柄
+    UINT    message;    消息标识符 大多数定义于WINUSER.H
+    WPARAM    wParam;        一个32位消息参数 意义和取值取决于具体消息
+    LPARAM    lParam;        同上
+    DWORD    time;        消息进入消息队列的时间
+    POINT    pt;            消息进入消息队列中时鼠标指针的位置坐标
+} MSG, *PMSG;
+typedef struct tagPOINT {
+    long x; long y;
+} POINT, *PPOINT;
+</code></pre><hr>
+<p>GetMessage(&amp;msg, NULL, 0, 0);<br>函数像操作系统发送请求 获取要处理的消息 如果消息队列中检索到的消息的message字段不等于WM_QUIT(其值为0x0012),<br>则GetMessage将返回一个非0值，否则返回0</p>
+<p>点击关闭按钮会产生一个WM_SYSCOMMAND消息 交由DefWindwoProc处理 发送一条WM_CLOSE消息 又交由DefWindwoProc处理<br>调用DestoryWindow(产生了WM_DESTORY消息?) 函数中调用PostQuitMessage 发送一条WM_QUIT消息 结束消息循环</p>
+<p>消息既可以是”队列消息” 也可以是”非队列消息”  队列消息是指由windows放入程序的消息队列中的消息 在程序的消息循环中<br>消息被检索 然后被投递到窗口过程中   非队列消息则是由windows对窗口过程的直接调用而产生的<br>队列消息一般是”投递”(post)到消息队列中 而非队列消息则是被”发送”(send)到窗口过程<br>队列消息主要由用户的输入产生，主要形式为按键消息(例如 WM_KEYDOWN和WM_KEYUP) 由按键产生的字符消息(WM_CHAR)<br>鼠标移动(WM_MOUSEMOVE) 鼠标单击(WM_LBUTTONDOWN)<br>此外 队列消息还包括定时器消息(WM_TIMER) 重绘消息(WM_PAINT) 和退出消息(WM_QUIT)<br>非队列消息则包括队列消息以外的其它所有消息 非队列消息通常由调用特定的windows函数引起 例如 WinMain调用createWindow<br>会在创建窗口过程中向窗口过程发送一个WM_CREATE消息  而当WinMain调用showwindow时会发送WM_SIZE 和WM_SHOWWINDOW<br>updatewindow会发送 WM_PAINT<br>表明键盘或鼠标输入的队列消息也能产生非队列消息 例如 当键盘或鼠标选择某个菜单项时 键盘或鼠标消息会进入消息队列<br>而最终表明有某菜单项被选中的WM_COMMAND消息却是一个非队列消息<br>p86 关于消息处理的几段话没有看明白</p>
+<p>WM_PAINT优先级很低， 基本总是处于消息队列尾部， 要实时重绘 可调用 UpdateWindow(hwnd);</p>
+<p>#define LOWORD(l) ((WORD)(l))</p>
+<p>#define HIWORD(l) ((WORD)(((WORD)(l)&gt;&gt;16)&amp;0xffff))</p>
+<p>SetScrollRange(hwnd, iBar, iMin, iMax, bRedraw);  设置滚动条范围<br>iBar=[SB_VERT|SB_HORZ] iMin,iMax分别对应范围最小最大值 bRedraw是否重绘<br>如果在调用SetScrollRange函数之后还调用其它函数来调整滚动条的显示时 最好将bRedraw设置为FALSE以避免过多重绘<br>SetScrollPos(hwnd, iBar, iPos, bRedraw);  设置滑块位置<br>GetScrollRange() GetScrollPos() 获取滚动条的范围和当前位置<br>用户点击滚动条或滑块时会产生 WM_VSCROLL或WM_HSCROLL 消息 并伴随 鼠标按下 和 鼠标松开两条消息<br>WM_VSCROLL和WM_HSCROLL的lParam一般可忽略  它只用于滚动条是子窗口时 通常是在对话框中<br>wParam低字节代表了鼠标在滚动条上的操作 由一个以SB开头的标识符定义  wParam的高字节是用户拖动滑块的当前位置<br>如果在滚动条的不同部分按住鼠标不动，程序可能收到多条滚动条消息<br>当松开鼠标键时 程序会受到一条带有SB_ENDSCROLL通知码消息<br>将鼠标放在滑块上然后按下鼠标键时，可以移动滑块，会生成带SB_THUMBTRACK和SB_THUMBPOSITION通知码的消息<br>当wParam的低字节是SB_THUMBTRACK时，wParam的高字节是用户拖动滑块的当前位置，这个位置位于range内<br>当wParam的低字节是SB_THUMBPOSITION时 wParam的高字节是用户松开鼠标的最终位置 对于其他滚动条操作 wParam高字节应被忽略<br>很少同时处理这两个消息， 区别是前者实时更新界面 后者当滑块停止时更新界面<br>新引入的两个函数  SetScrollInfo GetScrollInfo 包含上述四个功能 还加入两个新功能 设定滑块大小 获得超过16位的滑块位置<br>wParam高字节存放的滑块位置只有16位 当数据超过65535后 无法表示 而GetScrollInfo可以处理<br>SetScrollInfo(hwnd, iBar, &amp;si, bRedraw);<br>GetScrollInfo(hwnd, iBar, &amp;si);<br>iBar=[SB_VERT|SB_HORZ|SB_CTL] CTL表示一个滚动条控件</p>
+<hr>
+<pre><code>si = typedef struct tagSCROLLINFO {
+    UINT cbSize;    // 设置为sizeof(SCROLLINFO)    
+    UINT fMask;        // 要设置或获取的值
+    int nMin;        // 范围最小值    
+    int nMax;        // 范围最大值
+    UINT nPage;        // 页面大小
+    int nPos;        // 当前位置
+    int nTrackPos;    // 当前追踪位置
+} SCROLLINFO, *PSCROLLINFO;
+</code></pre><hr>
+<p>windows很多结构第一个字段常被定义为sizeof(this); 目的是方便以后的版本可以扩充结构而保持与以前程序兼容<br>fMask字段是一个或多个以SIF为前缀的标志</p>
+<p>iValue = GetDevicesCaps(hdc, iIndex);<br>获取设备的信息 包括显示器的大小和它的色彩能力等<br>参数iIndex是定义在WINGDI.H中的29个标识符之一，标志返回的信息 </p>
+<p>分辨率:每英寸像素点   像素尺寸:水平或垂直总像素点   度量尺寸:每英寸或毫米为单位的设备的客户区大小<br>像素尺寸 / 度量尺寸 = 分辨率;<br>5.2.4 设备的尺寸 133 全程懵逼</p>
+<p>COLORREF(32位无符号长整型)来表示一种特定的颜色 0-7:R  8-15:G  16-23:B  24-31:0</p>
+<p>#define RGB(r,g,b) ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))&lt;&lt;8))|(((DWORD)(BYTE)(b))&lt;&lt;16)))<br>GetRValue、GetGValue、GetBValue宏从COLORREF值中提取RGB颜色值</p>
+<p>绘图函数<br>SetPixel(hdc, x, y, (COLORREF)crColor); 将坐标为(x,y)的像素点设定为某个特定的颜色<br>(COLORREF)crColor = GetPixel(hdc, x, y); 获取坐标为(x,y)的像素点的颜色值<br>MoveTo(hdc, x, y);(16位windows) 返回值是调用之前点坐标<br>MoveToEx(hdc, xBeg, yBeg, NULL); 最后一个参数指向一个POINT的指针 记录调用之前点位置<br>LineTo(hdc, xEnd, yEnd);<br>GetCurrentPositionEx(hdc, &amp;pt); 获取当前点坐标 pt是POINT对象<br>Polyline(hdc, apt, n); apt点数组 n数组长度  顺序连接apt中的点<br>Rectangle(hdc, xLeft, yTop, xRight, yBottom);  绘制矩形 不包含右边和下边界点<br>Ellipse(hdc, xLeft, yTop, xRight, yBottom);     绘制椭圆内切外面的矩形框<br>RoundRect(hdc, xLeft, yTop, xRight, yBottom, xCornerEllipse, yCornerEllipse);  绘制圆角矩形 后两个参数是在角落画椭圆<br>Arc   (hdc, xLeft, yTop, xRight, yBottom, xStart, yStart, xEnd, yEnd); 绘制椭圆从(xStart,yStart)-&gt;(xEnd,yEnd)的曲线<br>Chord (hdc, xLeft, yTop, xRight, yBottom, xStart, yStart, xEnd, yEnd); 在上一个基础上连接首尾直线的封闭曲线<br>Pie   (hdc, xLeft, yTop, xRight, yBottom, xStart, yStart, xEnd, yEnd); 在第一个基础上连接首-椭圆中心-尾的折线</p>
+<p>画笔<br>HPen = GetStockObject(WHITE_PEN | BLACK_PEN | NULL_PEN); 可以获取备用画笔的句柄 白色 黑色 无画笔<br>HPen = SelectObject(hdc, hPen); 将画笔选入设备环境 返回前一个画笔的句柄<br>SelectObject(hdc, GetStockObject(WHITE_PEN)); 组合使用<br>创建画笔 CreatePen或者CretePenIndirect创建一个逻辑画笔 返回逻辑画笔的句柄<br>调用SelectObject将画笔传入设备环境中<br>释放设备环境之后 或者将其它画笔选入设备环境之后 需要调用DeleteObject释放画笔</p>
+<p>创建画笔 CreatePen和CretePenIndirect不需要hdc<br>HPEN hpen = CreatePen(iPenStyle, iWidth, crColor);<br>iPenStyle决定画笔绘制的是实现还是虚线或者点线PS_SOLID|PS_DASH|PS_DOT|PS_DASHDOT|PS_DASHDOTDOT|PS_NULL|PS_INSIDEFRAME<br>对于PS_SOLID PS_NULL PS_INSIDEFRAME样式 参数iWidth表示画笔的宽度 当iWidth=0时 画笔宽度为1ps 备用画笔总是1ps宽<br>如果指定虚线或点线宽度大于1 windows会使用实心画笔来代替 (意思就是iWidth只能=1)<br>crColor是一个COLORREF值 指定画笔的颜色 对所有除PS_INSIDEFRAME之外的样式 windows自动将该颜色转换为能表示的最近的纯色<br>PS_INSIDEFRAME样式是唯一能够使用抖动色的画笔样式 并且只有当画笔宽度大于1时才如此<br>也可以通过建立一个类型为LOGPEN(逻辑画笔)的结构 并调用CreatePenIndirect函数来建立一个画笔<br>LOGPEN logpen; 这个结构有三个字段 (UINT)lopenStyle表示画笔样式 (POINT)lopnWidth以逻辑单位表示的画笔宽度<br>    还有(COLORREF)lopnColor表示画笔的颜色 windows仅使用lopnWidth中的x设置画笔宽度 y被忽略<br>hPen = CreatePenIndirect(&amp;logpen);</p>
+<p>SelectObject(hdc, hPen);<br>DeleteObject(hpen);<br>hPen = SelectObject(hdc, CreatePen(PS_DASH, 0, RGB(255,0,0)));<br>DeleteObject(SelectObject(hdc, hPen));</p>
+<p>GetObject(hPen, sizeof(LOGPEN), (LPVOID)&amp;logpen); 获取LOGPEN结构中各个字段成员的值<br>hPen = GetCurrentObject(hdc, OBJ_PEN); 获取当前被选入设备环境的画笔句柄</p>
+<p>填充虚线和点线画笔间的空隙 由设备环境的背景模式和背景颜色共同决定<br>默认背景模式是OPAQUE(不透明) 空隙使用背景色(默认白色)填充<br>    可以使用SetBkColor(hdc, crColor);设置文字背景色 GetBkColor获取背景色<br>SetBkMode(hdc, TRANSPARENT(透明)); 设置背景模式透明 阻止windows填充背景色<br>GetBkMode(); 可以获取当前当前背景模式 要么是TRANSPARENT 要么是OPAQUE</p>
+<p>在设备环境中绘制线条 其颜色由画笔和显示区域的颜色共同确定 对两个颜色使用ROP2(二元光栅操作)得出显示颜色<br>windows定义了16种ROP2运算码 默认设备环境中绘图模式是R2_COPYPEN 将画笔像素颜色复制到目标像素上<br>博客中叙述了16中运算模式<a href="http://blog.csdn.net/hopygreat/article/details/78950875" target="_blank" rel="noopener">http://blog.csdn.net/hopygreat/article/details/78950875</a><br>可以调用SetROP2(hdc, iDrawMode);  设置绘图模式<br>可以调用iDrawMode = GetROP2(hdc); 获取当前绘图模式 </p>
+<p>画刷<br>Windows使用当前选入设备环境的画刷来填充图形，在默认情况下 使用的是备用对象WHITE_BRUSH(白色)<br>Windows定义了6种备用画刷：WHITE_BRUSH, LTGRAY_BRUSH, GRAY_BRUSH, DKGRAY_BRUSH,<br>        BLACK_BRUSH, NULL_BRUSH(又称为HOLLOW_BRUSH)<br>HBRUSH hBrush = GetStockObject(WHITE_BRUSH);可获取备用画刷<br>SelectObject(hdc, hBrush); 可以将画刷选入设备环境中<br>SelectObject(hdc, GetStockObject(NULL_PEN)); 可以绘制一个不含边框的图形<br>SelectObject(hdc, GetStockObject(NULL_BRUSH)); 可以绘制一个只含边框的图形<br>Polygon(hdc, apt, iCount); 绘制多边形 apt是POINT数组 iCount是点个数 如果最后一个点和第一个点不同 会自动连接一条线<br>PolyPolygon(hdc, apt, aiCounts, iPolyCount); 绘制多个多边形 apt是所有点数组<br>        aiCounts给出每个多边形顶点数 iPolyCount给出多边形个数<br>对Polygon, PolyPolygon windows都使用设备环境中的当前画刷来填充区域，至于内部是如何填充的 要取决于多边形填充模式<br>可以调用SetPolyFillMode(hdc, iMode)来设置填充模式<br>默认情况下 多边形填充模式是ALTERNATE(交替)，但是也可以将它设定为WINDING(螺旋) 较复杂 仅这两种选择 P164</p>
+<p>创建画刷： windows允许使用5种函数来创建画刷 调用SelectObject将画笔传入设备环境中<br>hBrush = CreateSolidBrush(crColor);<br>hBrush = CreateHatchBrush(iHatchStyle, crColor); 创建阴影线标记画刷<br>    iHatchStyle = [HS_HORIZONTAL | HS_BDIAGONAL | HS_VERTICAL | HS_CROSS | HS_FDIAGONAL | HS_DIAGCROSS]<br>    此处存在填充线和背景色混合问题 背景模式 阴影线颜色 背景颜色<br>CreatePatternBrush() 和 CreateDIBPatternBrushPt() 创建位图画刷<br>hBrush = CreateBrushIndirect(&amp;logbrush); 包含上述四个功能 logbrush是LOGBRUSH结构的逻辑画刷对象<br>LOGPEN logbrush; 这个结构有三个字段 (UINT)lbStyle (COLORREF)lbColor (LONG)lbHatch</p>
+<hr>
+<pre><code>lbStyle字段的值决定着windows如何解释其他两个字段
+
+lbStyle            lbColor         lbHatch
+BS_SOLID           画刷的颜色      忽略
+BS_HOLLOW          忽略            忽略
+BS_HATCHED         阴影线的颜色    阴影线的样式
+BS_PATTERN         忽略            位图句柄
+BS_DIBPATTERNPT    忽略            指向DIB的指针
+</code></pre><hr>
+<p>GDI映射模式mapping mode<br>与映射模式相关的有四个其他的设备环境属性 窗口原点 视口原点 窗口范围 视口范围<br>GDI函数中的坐标是逻辑坐标 windows要把其转换为设备单位 即像素</p>
+<hr>
+<pre><code>METRIC(公制) ENGLISH(英制) LO HI是低高精度    Twip杜撰词1/20点  1点=1/72英寸
+isotropic anisotropic是各向同性 各向异性
+映射模式        逻辑单位        x轴     y轴     值增加方向 
+MM_TEXT         像素            右      下      (默认)
+MM_LOMETRIC     0.1mm           右      上
+MM_HIMETRIC     0.01mm          右      上
+MM_LOENGLISH    0.01in.         右      上
+MM_HIENGLISH    0.001in.        右      上
+MM_TWIPS        1/1440in.       右      上
+MM_ISOTROPIC    自定义(x=y)     自定义  自定义
+MM_ANISOTROPIC  自定义(x!=y)    自定义  自定义
+</code></pre><hr>
+<p>SetMapMode(hdc, iMapMode);    设置映射模式<br>iMapMode = GetMapMode(hdc);    获取映射模式</p>
+<p>5.5.3 视图和窗口 172<br>ClientToScreen函数可以将客户区坐标转换为屏幕坐标 反之ScreenToClient<br>GetWindowRect函数以屏幕坐标的形式获取整个窗口的位置和大小<br>DPtoLP(hdc, pPoints, iNumber);    将设备点转换为逻辑点 pPoints是一个指向POINT数组的指针 iNumber是要转换的点个数<br>LPtoDP(hdc, pPoints, iNumber);  将逻辑点转换为设备点</p>
+<p>win32消息机制常用消息<br>WM_CLOSE: 点右上角×,默认消息处理时会发送WM_DESTORY<br>WM_DESTORY: 窗口被销毁<br>WM_CREAT: 窗口被创建<br>WM_PAINT: 窗口重绘<br>WM_COMMAND: 点击按钮<br>WM_SIZE: 窗口大小改变 lParam的低字节 客户区cx 高字节 客户区cy<br>WM_LBUTTONDOWN: 鼠标左键点击 wparam低字节 鼠标x坐标 高字节y<br>WM_RBUTTONDOWN: 鼠标右键点击 wparam低字节 鼠标x坐标 高字节y<br>WM_MOUSEMOVE: 鼠标移动       wparam低字节 鼠标x坐标 高字节y</p>
+<p>BOOL MoveWindow(HWND hWnd.int x.int y,int nWidth,int nHeight,BOOL BRePaint(窗口是否被重绘));<br>BOOL SetWindowText(HWND hwnd，LPCTSTR lpString);<br>int DialogBox(HINSTANCE hlnstance,LPCTSTRIpTemplate,HWND hWndParent,DLGPROC IpDialogFunc);<br>BOOL CALLBACK DialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM IParam);<br>UINT GetDlgltemlnt(HWND hDlg,int nlDDlgltem,BOOL *IpTranslated,BOOL bSigned);<br>BOOL SetDlgltemlnt(HWND hDlg,int nLDDlgltem,UINT uValue,BOOL bSigned);<br>HWND GetDlgltem(HWND hDlg,int nlDDlgltem);<br>BOOL GetWindowRect(HWND hWnd，LPRECTlpRect);<br>BOOL GetCursorPos(LPPOlNT IpPoint);<br>string.format(“%s”, charArr);  将字符数值转换为字符串</p>
+<p>DialogBox函数可显示rc文件里的对话框资源<br>函数原型：int DialogBox(HINSTANCE hlnstance,LPCTSTRIpTemplate,HWND hWndParent,DLGPROC IpDialogFunc);<br>返回值， 实例句柄， dlgID， 窗口句柄， 回调函数</p>
+<p>DialogProc 对话框消息处理函数<br>BOOL CALLBACK DialogProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);<br>除了对MM_INITDIALOG消息的响应之外如果函数处理消息，则对话框应用程序应该返回非零值，否则返回0<br>对话框句柄， msg， wParam， lParam</p>
+<p>获取对话框指定ID的文本转化为int<br>UINT GetDlgItemInt(HWND hDlg,int nlDDlgltem,BOOL *IpTranslated,BOOL bSigned);<br>值， 对话框句柄， ID， 函数调用是否成功返回值(一般设为null)， 是否是有符号数</p>
+<p>将值设定到指定ID位置<br>BOOL SetDlgltemlnt(HWND hDlg,int nLDDlgltem,UINT uValue,BOOL bSigned）;<br>函数调用是否成功， 对话框句柄， ID， 写入值， 是否是有符号数</p>
+<hr>
+<pre><code>对话框退出代码
+switch(uMsg)
+{
+    case WM_COMMAND:
+    {
+        if ( LOWORD(wParam) == IDCANCEL )
+        {
+            // 句柄+返回值
+            EndDialog( hwndDlg, IDCANCEL );
+            return true;
+        }
+    }
+}
+</code></pre><hr>
+<p>当对话框还未显示出来的时候会产生一个WM_INITDIALOG消息</p>
+<p>CListCtrl的InsertColumn可以在列表框中添加表头<br>// 获取列表框句柄<br>CListCtrl <em>pList = (CListCtrl</em>)GetDlgItem(IDC_LIST1);<br>// 插入 列号(0开始)，标题， 左对齐， 大小<br>pList-&gt;InsertColumn( 0, “学号”, LVCFMT_LEFT, 120 );<br>使用InsertColumn的前提是列表框的style-&gt;查看-&gt;报告</p>
+<p>GetItemCount(); 获得列表框的行数<br>InsertItem( ID, str ); 将str插入到列表框的第一列<br>SetItemText( count, n, str ); 在列表框的第count行的第n+1列插入str</p>
+<p>GetSelectionMark(); 获取虚线框选中项的行号<br>DeleteItem( nSel ); 删除列表框中的第nSel行</p>
+<p>POSITION pos = pList-&gt;GetFirstSelectedItemPosition();<br>int nSel = pList-&gt;GetNextSelectedItem(pos);<br>基于蓝色框选中的位置</p>
+<p>pList-&gt;GetSelectedCount(); 返回列表视图中被选择的项数<br>结合GetSelectionMark()</p>
+<p>pList-&gt;SetExtendedStyle(LVS_EX_FULLROWSELECT); 设置一次选中一行</p>
+<p>mfc核心头文件afxwin.h 核心方法virtual BOOL InitInstance(){}<br>需在有一个CWinApp的派生类  并有一个全局派生类对象</p>
+<hr>
+<pre><code>class CMyApp : public CWinApp
+{
+    virutal BOOL InitInstance()
+    {
+        statment;
+        return true/false;
+    }
+};
+CMyApp xxx;
+</code></pre><hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/01/MD笔记/" rel="next" title="MD笔记">
+                <i class="fa fa-chevron-left"></i> MD笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/05/linux笔记/" rel="prev" title="linux笔记">
+                linux笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">jqcc</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jqcc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</html>
