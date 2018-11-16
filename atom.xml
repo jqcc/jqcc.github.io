@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-08-21T12:55:26.000Z</updated>
+  <updated>2018-11-16T08:25:46.991Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>123</title>
+    <link href="http://yoursite.com/2018/11/16/123/"/>
+    <id>http://yoursite.com/2018/11/16/123/</id>
+    <published>2018-11-16T08:24:40.000Z</published>
+    <updated>2018-11-16T08:25:46.991Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="headline"><a href="#headline" class="headerlink" title="headline"></a>headline</h1><h2 id="title2"><a href="#title2" class="headerlink" title="title2"></a>title2</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;headline&quot;&gt;&lt;a href=&quot;#headline&quot; class=&quot;headerlink&quot; title=&quot;headline&quot;&gt;&lt;/a&gt;headline&lt;/h1&gt;&lt;h2 id=&quot;title2&quot;&gt;&lt;a href=&quot;#title2&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>nndl1使用梯度下降算法进行学习</title>
+    <link href="http://yoursite.com/2018/11/03/nndl1%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://yoursite.com/2018/11/03/nndl1使用梯度下降算法进行学习/</id>
+    <published>2018-11-03T07:55:12.000Z</published>
+    <updated>2018-11-03T08:56:44.564Z</updated>
+    
+    <content type="html"><![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script><h1 id="使用梯度下降算法进行学习"><a href="#使用梯度下降算法进行学习" class="headerlink" title="使用梯度下降算法进行学习"></a>使用梯度下降算法进行学习</h1><p>设计好神经网络的结构之后,它并不能进行任何任务,如mnist数据识别.<br>我们希望有一个算法,能让我们找到权重和偏置,以至于网络的输出y(x)能够拟合所有的训练输入x.<br>为了量化我们如何实现这个目标,我们定义一个<strong>代价函数</strong>:</p><p>这里w表示所有网络中权重的集合,b表示偏置项的集合.<br>为什么要引入这个代价函数呢?我们的目标原本是最大化正确分类的图像数量,但被正确分类的图像数量所关于权重和偏置的函数并不是一个平滑函数,所以引入一个类似二次代价的平滑代价函数更好的解决权重和偏置中微小改变带来的好处.</p><a id="more"></a><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
+
+&lt;h1 id=&quot;使用梯度下降算法进行学习&quot;&gt;&lt;a href=&quot;#使用梯度下降算法进行学习&quot; class=&quot;headerlink&quot; title=&quot;使用梯度下降算法进行学习&quot;&gt;&lt;/a&gt;使用梯度下降算法进行学习&lt;/h1&gt;&lt;p&gt;设计好神经网络的结构之后,它并不能进行任何任务,如mnist数据识别.&lt;br&gt;我们希望有一个算法,能让我们找到权重和偏置,以至于网络的输出y(x)能够拟合所有的训练输入x.&lt;br&gt;为了量化我们如何实现这个目标,我们定义一个&lt;strong&gt;代价函数&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;这里w表示所有网络中权重的集合,b表示偏置项的集合.&lt;br&gt;为什么要引入这个代价函数呢?我们的目标原本是最大化正确分类的图像数量,但被正确分类的图像数量所关于权重和偏置的函数并不是一个平滑函数,所以引入一个类似二次代价的平滑代价函数更好的解决权重和偏置中微小改变带来的好处.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="深度学习 神经网络 梯度下降" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
